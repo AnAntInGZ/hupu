@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package service;
+
+option go_package="alex.tse/proto/service";
+
+import "google/api/annotations.proto";
+
+message RaceType {
+  int32 id = 1;
+  string name = 2;
+}
+
+message Error {
+  string code = 1 [json_name = "Code"];
+  string message = 2 [json_name = "Message"];
+}
+
+message ListRaceTypesReq {}
+
+message ListRaceTypesRsp {
+    repeated RaceType data = 1;
+    string requestId = 2;
+    Error error = 3;
+}
+
+// 定义DemoService
+service HupuService {
+  rpc ListRaceTypes(ListRaceTypesReq) returns (ListRaceTypesRsp) {
+    option (google.api.http) = {
+      get: "/v1/racetypes"
+    };
+  }
+}
+
